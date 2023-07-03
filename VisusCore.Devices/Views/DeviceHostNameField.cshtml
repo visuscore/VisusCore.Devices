@@ -1,0 +1,12 @@
+@model VisusCore.Devices.ViewModels.DeviceHostNameFieldDisplayViewModel
+
+@using OrchardCore.Mvc.Utilities
+
+@{
+    var uniqueName = $"{Model.PartFieldDefinition.PartDefinition.Name}-{Model.PartFieldDefinition.Name}"
+        .HtmlClassify();
+}
+
+<div class="field field-type-textfield field-name-@uniqueName">
+    @Model.Value
+</div>
