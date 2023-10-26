@@ -17,8 +17,24 @@ public class DeviceHostNameFieldIndexProvider : ContentFieldIndexProvider<Device
     protected override DeviceHostNameFieldIndex CreateIndex(
         DeviceHostNameField field,
         ContentPartFieldDefinition definition,
-        ContentItem contentItem) =>
-        new()
+        ContentItem contentItem)
+    {
+        if (field is null)
+        {
+            throw new ArgumentNullException(nameof(field));
+        }
+
+        if (definition is null)
+        {
+            throw new ArgumentNullException(nameof(definition));
+        }
+
+        if (contentItem is null)
+        {
+            throw new ArgumentNullException(nameof(contentItem));
+        }
+
+        return new()
         {
             Latest = contentItem.Latest,
             Published = contentItem.Published,
@@ -29,4 +45,5 @@ public class DeviceHostNameFieldIndexProvider : ContentFieldIndexProvider<Device
             ContentField = definition.Name,
             Value = field.Value,
         };
+    }
 }

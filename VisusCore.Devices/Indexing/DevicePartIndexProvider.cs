@@ -13,8 +13,19 @@ public class DevicePartIndexProvider : ContentPartIndexProvider<DevicePart, Devi
     {
     }
 
-    protected override DevicePartIndex CreateIndex(DevicePart part, ContentItem contentItem) =>
-        new()
+    protected override DevicePartIndex CreateIndex(DevicePart part, ContentItem contentItem)
+    {
+        if (part is null)
+        {
+            throw new ArgumentNullException(nameof(part));
+        }
+
+        if (contentItem is null)
+        {
+            throw new ArgumentNullException(nameof(contentItem));
+        }
+
+        return new()
         {
             ContentItemId = contentItem.ContentItemId,
             ContentItemVersionId = contentItem.ContentItemVersionId,
@@ -23,4 +34,5 @@ public class DevicePartIndexProvider : ContentPartIndexProvider<DevicePart, Devi
             Published = contentItem.Published,
             Enabled = part.Enabled?.Value ?? false,
         };
+    }
 }

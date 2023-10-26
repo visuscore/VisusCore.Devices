@@ -1,6 +1,7 @@
 using OrchardCore.ContentManagement.Metadata.Models;
 using OrchardCore.ContentTypes.Editors;
 using OrchardCore.DisplayManagement.Views;
+using System;
 using System.Threading.Tasks;
 using VisusCore.Devices.Core.Fields;
 using VisusCore.Devices.Core.Settings;
@@ -19,6 +20,11 @@ public class DeviceHostNameFieldSettingsDisplayDriver : ContentPartFieldDefiniti
         ContentPartFieldDefinition model,
         UpdatePartFieldEditorContext context)
     {
+        if (context is null)
+        {
+            throw new ArgumentNullException(nameof(context));
+        }
+
         var settings = new DeviceHostNameFieldSettings();
 
         await context.Updater.TryUpdateModelAsync(settings, Prefix);

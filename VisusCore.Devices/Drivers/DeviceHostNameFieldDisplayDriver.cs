@@ -6,6 +6,7 @@ using OrchardCore.ContentManagement.Metadata.Models;
 using OrchardCore.DisplayManagement.ModelBinding;
 using OrchardCore.DisplayManagement.Views;
 using OrchardCore.Mvc.ModelBinding;
+using System;
 using System.Threading.Tasks;
 using VisusCore.Devices.Core.Fields;
 using VisusCore.Devices.Core.Settings;
@@ -48,7 +49,22 @@ public class DeviceHostNameFieldDisplayDriver : ContentFieldDisplayDriver<Device
 
     public override async Task<IDisplayResult> UpdateAsync(DeviceHostNameField field, IUpdateModel updater, UpdateFieldEditorContext context)
     {
-        if (await updater.TryUpdateModelAsync(field, Prefix, model => model.Value))
+        if (field is null)
+        {
+            throw new ArgumentNullException(nameof(field));
+        }
+
+        if (updater is null)
+        {
+            throw new ArgumentNullException(nameof(updater));
+        }
+
+        if (context is null)
+        {
+            throw new ArgumentNullException(nameof(context));
+        }
+
+        if (await updater.TryUpdateModelAsync(field, Prefix, model => model.Value).ConfigureAwait(false))
         {
             var settings = context.PartFieldDefinition.GetSettings<DeviceHostNameFieldSettings>();
             if (settings.Required && string.IsNullOrWhiteSpace(field.Value))
